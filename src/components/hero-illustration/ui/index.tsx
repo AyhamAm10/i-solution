@@ -4,7 +4,7 @@ import React, { Suspense, useLayoutEffect, useMemo, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment, OrbitControls, useGLTF } from "@react-three/drei";
 import { Box3, Group, Vector3 } from "three";
-
+import { useIsMobile } from "@/hooks/use-is-mobile"; 
 const MODEL_URL = "/ampul.glb";
 
 // ✅ عدّل هدول بس:
@@ -13,7 +13,7 @@ const Y_OFFSET = 0.12;   // ارفعو شوي لتفادي القص من تحت
 
 useGLTF.preload(MODEL_URL);
 
-function AmpulModel() {
+function AmpulModel({ targetSize, yOffset }: { targetSize: number; yOffset: number }) {
   const groupRef = useRef<Group>(null);
 
   const gltf = useGLTF(MODEL_URL);
@@ -22,24 +22,20 @@ function AmpulModel() {
   useLayoutEffect(() => {
     if (!groupRef.current) return;
 
-    // Center + Scale ثابتين (بدون تغيير كاميرا)
     const box = new Box3().setFromObject(groupRef.current);
     const size = new Vector3();
     const center = new Vector3();
     box.getSize(size);
     box.getCenter(center);
 
-    // توسيط
     groupRef.current.position.sub(center);
 
-    // سكيل
     const maxAxis = Math.max(size.x, size.y, size.z) || 1;
-    const s = TARGET_SIZE / maxAxis;
+    const s = targetSize / maxAxis;
     groupRef.current.scale.setScalar(s);
 
-    // رفع بسيط حتى ما ينقص من تحت
-    groupRef.current.position.y += Y_OFFSET;
-  }, []);
+    groupRef.current.position.y += yOffset;
+  }, [targetSize, yOffset]);
 
   return (
     <group ref={groupRef}>
@@ -49,37 +45,25 @@ function AmpulModel() {
 }
 
 export function Hero3D() {
+  const isMobile = useIsMobile(768);
+
+  const targetSize = isMobile ? 3.4 : 2.6;   // ✅ الموديل أكبر بالموبايل
+  const yOffset = isMobile ? 0.18 : 0.12;    // ✅ رفع بسيط
+  const cameraZ = isMobile ? 3.2 : 3.6;      // ✅ قرّب الكاميرا بالموبايل
+
   return (
     <div className="h-full w-full overflow-visible">
       <Canvas
-        // ✅ بعدنا الكاميرا شوي (حل القص + لا تغييرات تلقائية)
-        camera={{ position: [0, 0.55, 3.6], fov: 40 }}
+        camera={{ position: [0, 0.55, cameraZ], fov: 40 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
       >
-        <ambientLight intensity={0.9} />
-        <directionalLight position={[3, 3, 2]} intensity={1.2} />
-        <directionalLight position={[-3, 2, -2]} intensity={0.7} />
-
+        {/* ... */}
         <Suspense fallback={null}>
-          <AmpulModel />
+          <AmpulModel targetSize={targetSize} yOffset={yOffset} />
           <Environment preset="city" />
         </Suspense>
-
-        {/* ✅ تحكم دوران فقط — بدون Zoom */}
-        <OrbitControls
-          makeDefault
-          enableRotate
-          enableZoom={false}
-          enablePan={false}
-          autoRotate
-          autoRotateSpeed={0.8}
-          enableDamping
-          dampingFactor={0.08}
-          target={[0, 0.1, 0]}
-          minPolarAngle={Math.PI * 0.35}
-          maxPolarAngle={Math.PI * 0.65}
-        />
+        {/* ... */}
       </Canvas>
     </div>
   );

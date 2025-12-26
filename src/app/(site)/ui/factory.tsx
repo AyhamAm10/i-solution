@@ -6,6 +6,7 @@ import { Monitor, Server, Layers, ChevronLeft, Rocket, Target, Users, ArrowLeft,
 import { Hero3D } from "@/components/hero-illustration";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { tracks, projects } from "@/app/data/courses";
+import { HomeLoadingOverlay } from "./home-loading-overlay";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -44,6 +45,7 @@ const UIFactory = () => {
 
   return (
     <>
+    <HomeLoadingOverlay />
       {/* Hero Section */}
       <section className="relative min-h-[90vh] overflow-hidden bg-hero-pattern">
         <div className="section-container relative z-10 flex min-h-[80vh] flex-col items-center justify-center gap-8 lg:flex-row lg:gap-12">
