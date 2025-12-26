@@ -1,0 +1,268 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* I.Solution Design System - Arabic RTL Website
+   Color Palette: Tech Blue + Orange Accent (from logo)
+   All colors in HSL format
+*/
+
+@layer base {
+  :root {
+    /* Light Theme */
+    --background: 210 30% 98%;
+    --foreground: 215 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 15%;
+
+    /* Primary: Tech Blue from logo */
+    --primary: 203 72% 40%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary: Lighter blue */
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 203 72% 35%;
+
+    --muted: 210 30% 95%;
+    --muted-foreground: 215 15% 45%;
+
+    /* Accent: Orange from logo rays */
+    --accent: 28 95% 53%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 25% 88%;
+    --input: 210 25% 88%;
+    --ring: 203 72% 40%;
+
+    --radius: 0.75rem;
+
+    /* Custom tokens */
+    --gradient-primary: linear-gradient(135deg, hsl(203 72% 40%) 0%, hsl(203 72% 30%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(28 95% 53%) 0%, hsl(28 95% 45%) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(210 30% 96%) 0%, hsl(210 30% 92%) 100%);
+    --shadow-card: 0 4px 24px -4px hsl(203 72% 40% / 0.1);
+    --shadow-glow: 0 0 40px hsl(28 95% 53% / 0.2);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark Theme (Default) */
+    --background: 220 25% 8%;
+    --foreground: 210 30% 95%;
+
+    --card: 220 25% 12%;
+    --card-foreground: 210 30% 95%;
+
+    --popover: 220 25% 10%;
+    --popover-foreground: 210 30% 95%;
+
+    /* Primary: Brighter blue for dark mode */
+    --primary: 203 75% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary: Dark blue-gray */
+    --secondary: 220 25% 18%;
+    --secondary-foreground: 210 30% 90%;
+
+    --muted: 220 20% 16%;
+    --muted-foreground: 215 15% 60%;
+
+    /* Accent: Orange glow */
+    --accent: 28 95% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 20% 18%;
+    --input: 220 20% 20%;
+    --ring: 203 75% 50%;
+
+    /* Dark theme custom tokens */
+    --gradient-primary: linear-gradient(135deg, hsl(203 75% 50%) 0%, hsl(203 75% 35%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(28 95% 55%) 0%, hsl(28 95% 45%) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(220 25% 8%) 0%, hsl(220 30% 12%) 50%, hsl(220 25% 8%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(220 25% 14%) 0%, hsl(220 25% 10%) 100%);
+    --shadow-card: 0 8px 32px -8px hsl(0 0% 0% / 0.5);
+    --shadow-glow: 0 0 60px hsl(28 95% 55% / 0.15);
+    --shadow-primary-glow: 0 0 40px hsl(203 75% 50% / 0.2);
+
+    --sidebar-background: 220 25% 10%;
+    --sidebar-foreground: 210 30% 90%;
+    --sidebar-primary: 203 75% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 25% 16%;
+    --sidebar-accent-foreground: 210 30% 90%;
+    --sidebar-border: 220 20% 18%;
+    --sidebar-ring: 203 75% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: 'Cairo', sans-serif;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Premium card styling */
+  .card-premium {
+    @apply rounded-xl border border-border/50 bg-card p-6;
+    background: var(--gradient-card, hsl(var(--card)));
+    box-shadow: var(--shadow-card);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-premium:hover {
+    @apply border-primary/30;
+    box-shadow: var(--shadow-card), var(--shadow-primary-glow);
+    transform: translateY(-2px);
+  }
+
+  /* Gradient text */
+  .text-gradient-primary {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-accent {
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glass effect */
+  .glass {
+    @apply backdrop-blur-xl;
+    background: hsl(var(--card) / 0.8);
+    border: 1px solid hsl(var(--border) / 0.5);
+  }
+
+  /* WhatsApp button styling */
+  .whatsapp-btn {
+    @apply fixed z-50 flex items-center justify-center rounded-full shadow-lg;
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+    transition: all 0.3s ease;
+  }
+
+  .whatsapp-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 30px rgba(37, 211, 102, 0.5);
+  }
+
+  /* Section styling */
+  .section-container {
+    @apply mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24;
+  }
+
+  /* Track card hover effect */
+  .track-card {
+    @apply relative overflow-hidden rounded-2xl border border-border/50 bg-card p-8 transition-all duration-300;
+  }
+
+  .track-card::before {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.1) 0%, transparent 50%);
+  }
+
+  .track-card:hover::before {
+    @apply opacity-100;
+  }
+
+  .track-card:hover {
+    @apply border-primary/40;
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card), var(--shadow-primary-glow);
+  }
+}
+
+@layer utilities {
+  /* Animations */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+
+  .animate-fade-up {
+    animation: fadeUp 0.6s ease-out forwards;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% {
+      opacity: 1;
+      box-shadow: 0 0 20px hsl(var(--accent) / 0.4);
+    }
+    50% {
+      opacity: 0.8;
+      box-shadow: 0 0 40px hsl(var(--accent) / 0.6);
+    }
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* RTL specific utilities */
+  .flip-rtl {
+    transform: scaleX(-1);
+  }
+
+  [dir="rtl"] .flip-rtl {
+    transform: scaleX(1);
+  }
+}
