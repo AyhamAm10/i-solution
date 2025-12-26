@@ -1,19 +1,20 @@
 "use client";
 
 import React, { Suspense, useLayoutEffect, useMemo, useRef } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment, OrbitControls, useGLTF } from "@react-three/drei";
 import { Box3, Group, Vector3 } from "three";
-import { useIsMobile } from "@/hooks/use-is-mobile"; 
+
 const MODEL_URL = "/ampul.glb";
 
-// ✅ عدّل هدول بس:
-const TARGET_SIZE = 2.6; // حجم الموديل
-const Y_OFFSET = 0.12;   // ارفعو شوي لتفادي القص من تحت
+// حجم الموديل (ثابت)
+const TARGET_SIZE = 2.6;
+// رفع بسيط لتفادي القص من تحت
+const Y_OFFSET = 0.12;
 
 useGLTF.preload(MODEL_URL);
 
-function AmpulModel({ targetSize, yOffset }: { targetSize: number; yOffset: number }) {
+function AmpulModel() {
   const groupRef = useRef<Group>(null);
 
   const gltf = useGLTF(MODEL_URL);
@@ -28,14 +29,23 @@ function AmpulModel({ targetSize, yOffset }: { targetSize: number; yOffset: numb
     box.getSize(size);
     box.getCenter(center);
 
+    // توسيط
     groupRef.current.position.sub(center);
 
+    // سكيل
     const maxAxis = Math.max(size.x, size.y, size.z) || 1;
-    const s = targetSize / maxAxis;
+    const s = TARGET_SIZE / maxAxis;
     groupRef.current.scale.setScalar(s);
 
-    groupRef.current.position.y += yOffset;
-  }, [targetSize, yOffset]);
+    // رفع بسيط
+    groupRef.current.position.y += Y_OFFSET;
+  }, []);
+
+  // ✅ تدوير تلقائي (حتى لو OrbitControls ما اشتغل لأي سبب)
+  useFrame((_, delta) => {
+    if (!groupRef.current) return;
+    groupRef.current.rotation.y += delta * 0.6;
+  });
 
   return (
     <group ref={groupRef}>
@@ -45,25 +55,34 @@ function AmpulModel({ targetSize, yOffset }: { targetSize: number; yOffset: numb
 }
 
 export function Hero3D() {
-  const isMobile = useIsMobile(768);
-
-  const targetSize = isMobile ? 3.4 : 2.6;   // ✅ الموديل أكبر بالموبايل
-  const yOffset = isMobile ? 0.18 : 0.12;    // ✅ رفع بسيط
-  const cameraZ = isMobile ? 3.2 : 3.6;      // ✅ قرّب الكاميرا بالموبايل
-
   return (
-    <div className="h-full w-full overflow-visible">
+    <div className="h-full w-full overflow-visible touch-none">
       <Canvas
-        camera={{ position: [0, 0.55, cameraZ], fov: 40 }}
+        style={{ touchAction: "none" }} // ✅ أهم سطر للموبايل
+        camera={{ position: [0, 0.55, 3.6], fov: 40 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
       >
-        {/* ... */}
+        <ambientLight intensity={0.9} />
+        <directionalLight position={[3, 3, 2]} intensity={1.2} />
+        <directionalLight position={[-3, 2, -2]} intensity={0.7} />
+
         <Suspense fallback={null}>
-          <AmpulModel targetSize={targetSize} yOffset={yOffset} />
+          <AmpulModel />
           <Environment preset="city" />
         </Suspense>
-        {/* ... */}
+
+        {/* ✅ تحكم يدوي بالدوران فقط */}
+        <OrbitControls
+          makeDefault
+          enableRotate
+          enableZoom={false}
+          enablePan={false}
+          enableDamping
+          dampingFactor={0.08}
+          rotateSpeed={0.9}
+          target={[0, 0.1, 0]}
+        />
       </Canvas>
     </div>
   );
