@@ -7,9 +7,7 @@ import { Box3, Group, Vector3 } from "three";
 
 const MODEL_URL = "/ampul.glb";
 
-// حجم الموديل (ثابت)
 const TARGET_SIZE = 2.6;
-// رفع بسيط لتفادي القص من تحت
 const Y_OFFSET = 0.12;
 
 useGLTF.preload(MODEL_URL);
@@ -58,7 +56,7 @@ export function Hero3D() {
   return (
     <div className="h-full w-full overflow-visible touch-none">
       <Canvas
-        style={{ touchAction: "none" }} // ✅ أهم سطر للموبايل
+        style={{ touchAction: "none" }} 
         camera={{ position: [0, 0.55, 3.6], fov: 40 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
