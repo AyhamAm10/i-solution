@@ -1,9 +1,9 @@
-"use client";
-
 import React, { Suspense, useLayoutEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment, OrbitControls, useGLTF } from "@react-three/drei";
 import { Box3, Group, Vector3 } from "three";
+import { Hero3DLoader } from "./hero.2d-loader";
+
 
 const MODEL_URL = "/ampul.glb";
 
@@ -27,19 +27,15 @@ function AmpulModel() {
     box.getSize(size);
     box.getCenter(center);
 
-    // توسيط
     groupRef.current.position.sub(center);
 
-    // سكيل
     const maxAxis = Math.max(size.x, size.y, size.z) || 1;
     const s = TARGET_SIZE / maxAxis;
     groupRef.current.scale.setScalar(s);
 
-    // رفع بسيط
     groupRef.current.position.y += Y_OFFSET;
   }, []);
 
-  // ✅ تدوير تلقائي (حتى لو OrbitControls ما اشتغل لأي سبب)
   useFrame((_, delta) => {
     if (!groupRef.current) return;
     groupRef.current.rotation.y += delta * 0.6;
@@ -56,7 +52,7 @@ export function Hero3D() {
   return (
     <div className="h-full w-full overflow-visible touch-none">
       <Canvas
-        style={{ touchAction: "none" }} 
+        style={{ touchAction: "none" }}
         camera={{ position: [0, 0.55, 3.6], fov: 40 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
@@ -65,12 +61,11 @@ export function Hero3D() {
         <directionalLight position={[3, 3, 2]} intensity={1.2} />
         <directionalLight position={[-3, 2, -2]} intensity={0.7} />
 
-        <Suspense fallback={null}>
+        <Suspense fallback={<Hero3DLoader />}>
           <AmpulModel />
           <Environment preset="city" />
         </Suspense>
 
-        {/* ✅ تحكم يدوي بالدوران فقط */}
         <OrbitControls
           makeDefault
           enableRotate

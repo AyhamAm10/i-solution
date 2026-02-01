@@ -45,7 +45,7 @@ const UIFactory = () => {
 
   return (
     <>
-    <HomeLoadingOverlay />
+    {/* <HomeLoadingOverlay /> */}
       {/* Hero Section */}
       <section className="relative min-h-[90vh] overflow-hidden bg-hero-pattern">
         <div className="section-container relative z-10 flex min-h-[80vh] flex-col-reverse items-center justify-center gap-8 lg:flex-row lg:gap-12">

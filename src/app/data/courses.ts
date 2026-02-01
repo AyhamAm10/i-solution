@@ -6,21 +6,68 @@ export interface CourseLevel {
   description: string;
   projects: string[];
   targetAudience: string;
-  duration: string;
+  duration?: string; // صار اختياري
 }
+
+export type TrackType = "track" | "workshop";
 
 export interface Track {
   id: string;
+  type?: TrackType;        // جديد (افتراضي track)
   name: string;
   description: string;
   icon: string;
   levels: CourseLevel[];
   color: string;
+
+  // خصائص اختيارية للورشات (او للتسويق)
+  badge?: "مجانا" | string;
+  cta?: {
+    label: string;
+    whatsappNumber?: string;   // بدون +
+    message?: string;
+  };
 }
 
 export const tracks: Track[] = [
+  // -----------------------
+  // WORKSHOP (NEW)
+  // -----------------------
+  {
+    id: "web-workshop-intro",
+    type: "workshop",
+    name: "ورشة مجانية: فهم الويب من الصفر",
+    description: "جلسة واحدة تشرح كيف يعمل Frontend و Backend وكيف نتصل بقاعدة البيانات",
+    icon: "BookOpen",
+    color: "accent",
+    badge: "مجانا",
+    cta: {
+      label: "احجز مقعدك",
+      whatsappNumber: "963949620990",
+      message: "مرحبا! بدي احجز مقعدي بالورشة المجانية (فهم الويب من الصفر)."
+    },
+    levels: [
+      {
+        level: 1,
+        title: "كيف يعمل الويب؟ (Frontend + Backend + Database)",
+        description:
+          "شرح مبسط للصورة الكبيرة: من المتصفح للسيرفر، ثم قاعدة البيانات، وكيف تنتقل البيانات بين كل جزء.",
+        projects: [
+          "سيناريو واقعي: إضافة منتج (Request/Response + Database)",
+          "سيناريو واجهة: فتح Menu / تغيير Theme (Client فقط)"
+        ],
+        targetAudience: "مناسبة للمبتدئين تماماً والطلاب الذين يريدون فهم الصورة الكبيرة",
+        duration: "جلسة واحدة"
+      }
+    ]
+  },
+
+  // -----------------------
+  // TRACKS (EXISTING)
+  // -----------------------
   {
     id: "frontend",
+    type: "track",
     name: "مسار الواجهة الأمامية",
     description: "React/Next.js - من التأسيس إلى الاحتراف",
     icon: "Monitor",
@@ -29,7 +76,8 @@ export const tracks: Track[] = [
       {
         level: 1,
         title: "تأسيس الويب وReact",
-        description: "أساسيات HTML, CSS, JavaScript وبداية React. ستتعلم كيفية بناء واجهات تفاعلية من الصفر.",
+        description:
+          "أساسيات HTML, CSS, JavaScript وبداية React. ستتعلم كيفية بناء واجهات تفاعلية من الصفر.",
         projects: ["صفحة Landing احترافية + مكوّنات + Responsive"],
         targetAudience: "للمبتدئين الذين لم يسبق لهم البرمجة أو لديهم معرفة بسيطة",
         duration: "تُحدد حسب مستوى المجموعة"
@@ -37,7 +85,8 @@ export const tracks: Track[] = [
       {
         level: 2,
         title: "Next.js عملي + تطبيقات سوق",
-        description: "Next.js App Router, Server Components, API Routes, وربط البيانات مع قواعد بيانات.",
+        description:
+          "Next.js App Router, Server Components, API Routes, وربط البيانات مع قواعد بيانات.",
         projects: ["Dashboard CRUD متكامل", "Mini E-commerce بسلة مشتريات"],
         targetAudience: "لمن أتم المستوى الأول أو لديه خبرة React أساسية",
         duration: "تُحدد حسب مستوى المجموعة"
@@ -45,7 +94,8 @@ export const tracks: Track[] = [
       {
         level: 3,
         title: "هيكلة احترافية + Animations",
-        description: "Patterns متقدمة، هيكلة ملفات المشروع، Framer Motion للحركات، Three.js للـ 3D.",
+        description:
+          "Patterns متقدمة، هيكلة ملفات المشروع، Framer Motion للحركات، Three.js للـ 3D.",
         projects: ["واجهة تفاعلية مع Framer Motion + Three.js"],
         targetAudience: "لمن يريد التميز والعمل على مشاريع معقدة",
         duration: "تُحدد حسب مستوى المجموعة"
@@ -54,6 +104,7 @@ export const tracks: Track[] = [
   },
   {
     id: "backend",
+    type: "track",
     name: "مسار الخادم",
     description: "Node/Express + Postgres - بناء APIs احترافية",
     icon: "Server",
@@ -62,7 +113,8 @@ export const tracks: Track[] = [
       {
         level: 1,
         title: "REST API قوية للمبتدئين",
-        description: "أساسيات Node.js, Express, TypeScript, وقواعد البيانات مع Postgres و TypeORM.",
+        description:
+          "أساسيات Node.js, Express, TypeScript, وقواعد البيانات مع Postgres و TypeORM.",
         projects: ["API مع Auth + Postgres + TypeORM"],
         targetAudience: "للمبتدئين الذين يريدون فهم الـ Backend",
         duration: "تُحدد حسب مستوى المجموعة"
@@ -70,7 +122,8 @@ export const tracks: Track[] = [
       {
         level: 2,
         title: "هيكلة شركات (Layers) + جودة إنتاج",
-        description: "Clean Architecture، Controllers/Services/Repositories، Logging، Security، Testing.",
+        description:
+          "Clean Architecture، Controllers/Services/Repositories، Logging، Security، Testing.",
         projects: ["API منظمة (Controller/Service/Repo) + Logging + Security"],
         targetAudience: "لمن أتم المستوى الأول ويريد هيكلة احترافية",
         duration: "تُحدد حسب مستوى المجموعة"
@@ -79,6 +132,7 @@ export const tracks: Track[] = [
   },
   {
     id: "fullstack",
+    type: "track",
     name: "المسار المتكامل",
     description: "Full-Stack - Frontend + Backend معاً",
     icon: "Layers",
@@ -111,6 +165,7 @@ export const tracks: Track[] = [
     ]
   }
 ];
+
 
 export interface Project {
   id: string;

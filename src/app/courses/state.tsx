@@ -29,7 +29,6 @@ const State = ({ children }: PropsWithChildren) => {
   const [activeTrack, setActiveTrackState] = useState("all");
   const [activeLevel, setActiveLevelState] = useState("all");
 
-  // ✅ sync أول مرة + دعم back/forward بدون useSearchParams
   useEffect(() => {
     const sync = () => {
       const { track, level } = readFromUrl();
