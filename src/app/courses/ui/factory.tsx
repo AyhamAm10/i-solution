@@ -57,8 +57,8 @@ const UIFactory = () => {
     activeTrack === "all"
       ? [1, 2, 3]
       : courseTracks
-          .find((t: any) => t.id === activeTrack)
-          ?.levels.map((l: any) => l.level) || [1, 2, 3];
+        .find((t: any) => t.id === activeTrack)
+        ?.levels.map((l: any) => l.level) || [1, 2, 3];
 
   return (
     <div className="section-container">
@@ -89,17 +89,17 @@ const UIFactory = () => {
           <div className="mb-4 flex items-center justify-between gap-3">
             <div>
               <h2 className="text-xl font-bold sm:text-2xl">
-                الورشات المجانية
+              مسار Frontend Developer
               </h2>
               <p className="text-sm text-muted-foreground">
-                جلسات قصيرة لتفهم الأساسيات قبل الدخول بالكورس
+              تدريب عملي متكامل من الصفر لمشاريع حقيقية وبورتفوليو للتقديم على فرص Frontend
               </p>
             </div>
 
             {/* <span className="hidden sm:inline-flex items-center gap-2 rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">
-              <Gift className="h-4 w-4" />
-              مجاناً
-            </span> */}
+    <Gift className="h-4 w-4" />
+    مجاناً
+  </span> */}
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -167,9 +167,9 @@ const UIFactory = () => {
                       <ArrowUpRight className="h-4 w-4" />
                     </a>
 
-                    <p className="text-center text-xs text-muted-foreground">
+                    {/* <p className="text-center text-xs text-muted-foreground">
                       جلسة واحدة • مناسبة للمبتدئين
-                    </p>
+                    </p> */}
                   </div>
                 </motion.div>
               );
@@ -200,11 +200,10 @@ const UIFactory = () => {
           <div className="-mx-2 flex gap-2 overflow-x-auto px-2 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <button
               onClick={() => handleTrackFilter("all")}
-              className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                activeTrack === "all"
+              className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${activeTrack === "all"
                   ? "bg-primary text-primary-foreground"
                   : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-              }`}
+                }`}
             >
               الكل
             </button>
@@ -213,11 +212,10 @@ const UIFactory = () => {
               <button
                 key={track.id}
                 onClick={() => handleTrackFilter(track.id)}
-                className={`shrink-0 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                  activeTrack === track.id
+                className={`shrink-0 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors ${activeTrack === track.id
                     ? "bg-primary text-primary-foreground"
                     : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                }`}
+                  }`}
               >
                 {trackIcons[track.id]}
                 {track.id === "frontend" && "Frontend"}
@@ -237,11 +235,10 @@ const UIFactory = () => {
           <div className="-mx-2 flex gap-2 overflow-x-auto px-2 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <button
               onClick={() => handleLevelFilter("all")}
-              className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                activeLevel === "all"
+              className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${activeLevel === "all"
                   ? "bg-accent text-accent-foreground"
                   : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-              }`}
+                }`}
             >
               الكل
             </button>
@@ -251,13 +248,12 @@ const UIFactory = () => {
                 key={levelNum}
                 onClick={() => handleLevelFilter(levelNum.toString())}
                 disabled={!availableLevels.includes(levelNum)}
-                className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                  activeLevel === levelNum.toString()
+                className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${activeLevel === levelNum.toString()
                     ? "bg-accent text-accent-foreground"
                     : availableLevels.includes(levelNum)
                       ? "bg-secondary text-secondary-foreground hover:bg-secondary/80"
                       : "cursor-not-allowed bg-secondary/50 text-muted-foreground opacity-50"
-                }`}
+                  }`}
               >
                 المستوى {levelNum}
               </button>
@@ -292,8 +288,8 @@ const UIFactory = () => {
             activeLevel === "all"
               ? track.levels
               : track.levels.filter(
-                  (l: any) => l.level.toString() === activeLevel,
-                );
+                (l: any) => l.level.toString() === activeLevel,
+              );
 
           if (filteredLevels.length === 0) return null;
 
@@ -308,11 +304,10 @@ const UIFactory = () => {
               {/* Track Header */}
               <div className="mb-6 flex items-center gap-3">
                 <div
-                  className={`flex h-12 w-12 items-center justify-center rounded-xl ${
-                    track.color === "accent"
+                  className={`flex h-12 w-12 items-center justify-center rounded-xl ${track.color === "accent"
                       ? "bg-accent/10 text-accent"
                       : "bg-primary/10 text-primary"
-                  }`}
+                    }`}
                 >
                   {trackIcons[track.id]}
                 </div>
@@ -337,11 +332,10 @@ const UIFactory = () => {
                     {/* Level Badge */}
                     <div className="mb-4 flex items-center justify-between">
                       <span
-                        className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-medium ${
-                          track.color === "accent"
+                        className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-medium ${track.color === "accent"
                             ? "bg-accent/10 text-accent"
                             : "bg-primary/10 text-primary"
-                        }`}
+                          }`}
                       >
                         المستوى {level.level}
                       </span>

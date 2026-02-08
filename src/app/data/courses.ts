@@ -9,7 +9,7 @@ export interface CourseLevel {
   duration?: string; // صار اختياري
 }
 
-export type TrackType = "track" | "workshop";
+export type TrackType = "track" | "workshop" | "course";
 
 export interface Track {
   id: string;
@@ -36,15 +36,17 @@ export const tracks: Track[] = [
   {
     id: "web-workshop-intro",
     type: "workshop",
-    name: "ورشة مجانية: فهم الويب من الصفر",
-    description: "جلسة واحدة تشرح كيف يعمل Frontend و Backend وكيف نتصل بقاعدة البيانات",
+    name: "مسار Frontend Developer (4 شهور)",
+    description:
+      "مسار تدريبي كامل من الصفر لمشاريع حقيقية: HTML/CSS + Responsive + Tailwind + JavaScript + React + Git، مع تطبيق عملي على E-commerce و Dashboard وبورتفوليو جاهز للتقديم.",
     icon: "BookOpen",
     color: "accent",
-    badge: "مجانا",
+    badge: "مسار Frontend",
     cta: {
-      label: "احجز مقعدك",
+      label: "اطلب التفاصيل",
       whatsappNumber: "963949620990",
-      message: "مرحبا! بدي احجز مقعدي بالورشة المجانية (فهم الويب من الصفر)."
+      message:
+        "مرحبا! بدي تفاصيل مسار Frontend Developer (4 شهور) + مواعيد التسجيل."
     },
     levels: [
       {
